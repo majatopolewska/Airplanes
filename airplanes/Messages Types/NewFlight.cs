@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static airplanes.Program;
+
+namespace airplanes
+{
+    class NewFlight : IObject
+    {
+        public string type { get; set; } = "NFL";
+
+        public UInt32 FollowingMessageLenght;
+        public UInt64 Id;
+        public UInt64 OriginId;
+        public UInt64 TargetId;
+        public Int64 TakeOffTime; // number of ms since EPOCH
+        public Int64 LandingTime; // number of ms since EPOCH
+        public UInt64 PlaneId;
+        public UInt16 CrewCount;
+        public UInt64[] Crew;
+        public UInt16 PassCargCount; // passenger/cargo count - we don't know what type of plane
+        public UInt64[] PassCarg;
+    }
+}
