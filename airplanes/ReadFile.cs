@@ -11,8 +11,8 @@ namespace airplanes
     {
         public static object[] ReadDataFromFile(string filePath)
         {
-            var data = new List<object>();
-            // duzo plikow, dobrze - wszystko w innych klasach
+            var data = new List<IObject>();
+
             foreach (var line in File.ReadLines(filePath))
             {
                 var values = line.Split(',');
@@ -21,8 +21,6 @@ namespace airplanes
                 {
                     string dataType = values[0];
 
-                    // switch okej
-                    // można zastopić dictionary
                     switch (dataType)
                     {
                         case "C":

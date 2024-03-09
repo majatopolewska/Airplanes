@@ -9,8 +9,10 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class Airport
+    class Airport : IObject
     {
+        public string type { get; set; } = "AI";
+
         public ulong Id;
         public string Name;
         public string Code;

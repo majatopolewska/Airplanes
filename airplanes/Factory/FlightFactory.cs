@@ -9,7 +9,7 @@ namespace airplanes
 {
     public class FlightFactory : IDataFactory
     {
-        public object Create(string[] values)
+        public IObject Create(string[] values)
         {
             var crewIdsString = values[10].Trim('[', ']');
             var crewIdsArray = crewIdsString.Split(';').Select(ulong.Parse).ToArray();

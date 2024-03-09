@@ -9,7 +9,7 @@ namespace airplanes
 {
     public class CargoPlaneFactory : IDataFactory
     {
-        public object Create(string[] values)
+        public IObject Create(string[] values)
         {
             return new CargoPlane
             {

@@ -7,8 +7,10 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class CargoPlane
+    class CargoPlane : IObject
     {
+        public string type { get; set; } = "CP";
+
         public ulong Id;
         public string Serial;
         public string Country;

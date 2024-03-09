@@ -2,8 +2,10 @@
 
 namespace airplanes
 {
-    class Passenger
+    class Passenger : IObject
     {
+        public string type { get; set; } = "P";
+
         public ulong Id;
         public string Name;
         public ulong Age;

@@ -30,8 +30,9 @@ namespace airplanes
             dataSourceThread.Abort();
         }
 
+
         // message handler
-        private static void DataSource_OnNewDataReady(NewDataReadyArgs args, NetworkSourceSimulator.NetworkSourceSimulator dataSource)
+        private static void DataSource_OnNewDataReady(NetworkSourceSimulator.NetworkSourceSimulator dataSource, NewDataReadyArgs args)
         {
             // to message w bajtach
             // wojtek by zrobił tak
@@ -46,7 +47,11 @@ namespace airplanes
             // datetimeoffset.fromunixtimemiliseconds
 
             Message message = dataSource.GetMessageAt(args.MessageIndex);
+            var str = System.Text.Encoding.Default.GetString(message.MessageBytes);
+            Console.WriteLine(str);
             Console.WriteLine("New message received. Message index: " + args.MessageIndex);
+
+            // TU PARSOWANIE
         }
     }
 }

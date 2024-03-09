@@ -2,8 +2,10 @@
 
 namespace airplanes
 {
-    class Cargo
+    class Cargo : IObject
     {
+        public string type { get; set; } = "CA";
+
         public ulong Id;
         public Single Weight;
         public string Code;

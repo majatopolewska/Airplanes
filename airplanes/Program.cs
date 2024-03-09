@@ -18,23 +18,9 @@ namespace airplanes
         // często jako klasa abstakcyjna
         // nie używać object z małej lietry
         // chcemy unikać castowania
-        public interface IDataFactory
-        {
-            object Create(string[] values);
-        }
-
-        public interface IObject
-        {
-            string type { get;  set; }
-        }
-
-        public interface INewDataFactory
-        {
-            IObject Create(string sign);
-        }
-
         static void Main(string[] args)
         {
+            /*
             string inputFile = "data.ftr";
             string outputFile = "data.json";
 
@@ -47,8 +33,8 @@ namespace airplanes
             SaveToJson(data, outputFilePath);
 
             Console.WriteLine($"Data saved to {outputFile}");
-            
-            //LoadDataSource.LoadDatafromSource();
+            */
+            LoadDataSource.LoadDatafromSource();
         }
 
         public static T FormatData<T>(string data)

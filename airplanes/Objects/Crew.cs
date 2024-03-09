@@ -2,8 +2,10 @@
 
 namespace airplanes
 {
-    class Crew
+    class Crew : IObject
     {
+        public string type { get; set; } = "C";
+
         public ulong Id;
         public string Name;
         public ulong Age;
