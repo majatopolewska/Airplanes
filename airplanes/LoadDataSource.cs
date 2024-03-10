@@ -19,8 +19,9 @@ namespace airplanes
             NetworkSourceSimulator.NetworkSourceSimulator dataSource = new NetworkSourceSimulator.NetworkSourceSimulator(inputFilePath, 100, 1000);
 
             dataSource.OnNewDataReady += DataSource_OnNewDataReady;
-
-            Thread dataSourceThread = new Thread(dataSource.Run());
+            ParameterizedThreadStart startit = dataSource;
+           
+            Thread dataSourceThread = new Thread(startit);
             dataSourceThread.Start();
 
             Console.WriteLine("Press any key to exit."); // switch z print i exit

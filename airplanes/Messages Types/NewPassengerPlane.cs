@@ -20,5 +20,22 @@ namespace airplanes
         public UInt16 FirstClassSize;
         public UInt16 BuisnessClassSize;
         public UInt16 EconomyClassSize;
+
+        public NewPassengerPlane() : this(0, "", "", "", 0, 0, 0)
+        { }
+
+        public NewPassengerPlane(ulong id, string serial, string countryCode, string model, ushort firstClassSize, ushort businessClassSize, ushort economyClassSize)
+        {
+            Id = id;
+            Serial = serial.ToCharArray();
+            ISOCountryCode = countryCode.ToCharArray();
+            Model = model.ToCharArray();
+            FirstClassSize = firstClassSize;
+            BuisnessClassSize = businessClassSize;
+            EconomyClassSize = economyClassSize;
+
+            ModelLenght = (ushort)Model.Length;
+            FollowingMessageLenght = (uint)(Serial.Length + ISOCountryCode.Length + Model.Length + 12); 
+        }
     }
 }

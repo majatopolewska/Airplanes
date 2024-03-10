@@ -14,4 +14,9 @@ namespace airplanes
     {
         public IObject Create(string[] values);
     }
+
+    public interface IMessageFactory
+    {
+        public IObject Create(byte[] values);
+    }
 }

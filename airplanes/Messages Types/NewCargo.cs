@@ -17,5 +17,18 @@ namespace airplanes
         public char[] Code;
         public UInt16 DescriptionLenght;
         public char[] Description;
+
+        public NewCargo() : this(0, 0, "", "")
+        { }
+        public NewCargo(ulong id, float weight, string code, string description)
+        {
+            Id = id;
+            Weight = weight;
+            Code = code.ToCharArray();
+            Description = description.ToCharArray();
+
+            DescriptionLenght = (ushort)Description.Length;
+            FollowingMessageLenght = (uint)(DescriptionLenght + Code.Length + 18);
+        }
     }
 }
