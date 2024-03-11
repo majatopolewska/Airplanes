@@ -15,9 +15,6 @@ namespace airplanes
 {
     class Program
     {
-        // często jako klasa abstakcyjna
-        // nie używać object z małej lietry
-        // chcemy unikać castowania
         static void Main(string[] args)
         {
             /*

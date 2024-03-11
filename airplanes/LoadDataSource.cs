@@ -16,10 +16,13 @@ namespace airplanes
             data = new List<IObject>();
 
             string inputFile = "data.ftr";
+            string outputFile = "data.json";
+
             string currentDirectory = Directory.GetCurrentDirectory();
             string inputFilePath = Path.Combine(currentDirectory, inputFile);
+            string outputFilePath = Path.Combine(currentDirectory, outputFile);
 
-            NetworkSourceSimulator.NetworkSourceSimulator dataSource = new NetworkSourceSimulator.NetworkSourceSimulator(inputFilePath, 100, 1000);
+            NetworkSourceSimulator.NetworkSourceSimulator dataSource = new NetworkSourceSimulator.NetworkSourceSimulator(inputFilePath, 10, 11);
 
             dataSource.OnNewDataReady += DataSource_OnNewDataReady;
            
@@ -36,19 +39,15 @@ namespace airplanes
                 switch (command)
                 {
                     case "print":
-                        Program.SaveToJson(data.ToArray(), inputFilePath);
+                        Program.SaveToJson(data.ToArray(), outputFilePath);
                         break;
                     case "exit":
                         exitCommand = true;
-                        return;
+                        break;
                     default:
                         break;
                 }
             }
-
-            // switch z print i exit
-            // użyć serializacji z poprzedniego etapu - funkcja SaveToJson
-            Console.ReadKey();
 
             dataSourceThread.Abort();
         }
@@ -71,10 +70,9 @@ namespace airplanes
             
             Message message = ((NetworkSourceSimulator.NetworkSourceSimulator) sender).GetMessageAt(args.MessageIndex);
             var str = System.Text.Encoding.Default.GetString(message.MessageBytes);
-            Console.WriteLine(str);
-            Console.WriteLine("New message received. Message index: " + args.MessageIndex);
             
-            // TU PARSOWANIE
+            // Console.WriteLine("New message received. Message index: " + args.MessageIndex);
+
             MessageFactory messageFactory = new MessageFactory();
             IObject resultObject = messageFactory.Create(message.MessageBytes);
             data.Add(resultObject);

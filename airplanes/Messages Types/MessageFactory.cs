@@ -25,9 +25,10 @@ namespace airplanes
                 messageType += Convert.ToChar(data[i]);
             }
 
+
             switch (messageType)
             {
-                case "NIA": // NewAirport
+                case "NAI": // NewAirport
                     return ParseNewAirport(data);
                 case "NCA": // NewCargo
                     return ParseNewCargo(data);
@@ -40,8 +41,7 @@ namespace airplanes
                 case "NPP": // NewPassengerPlane
                     return ParseNewPassengerPlane(data);
                 case "NFL": // NewFlight
-                    return ParseNewFlight(data);
-                
+                    return ParseNewFlight(data); 
                 default:
                     throw new ArgumentException("Invalid type indicator");
 
@@ -54,12 +54,12 @@ namespace airplanes
             return new NewAirport
             {
                 Id = BitConverter.ToUInt64(data, 7),
-                Name = BitConverter.ToString(data, 17, NameLenght),
-                Code = BitConverter.ToString(data, 17+NameLenght, 3),
+                Name = Encoding.ASCII.GetString(data, 17, NameLenght),
+                Code = Encoding.ASCII.GetString(data, 17+NameLenght, 3),
                 Longitude = BitConverter.ToSingle(data, 20+NameLenght),
                 Latitude = BitConverter.ToSingle(data, 24 + NameLenght),
                 AMSL = BitConverter.ToSingle(data, 28 + NameLenght),
-                ISOCountryCode = BitConverter.ToString(data, 32+NameLenght, 3)
+                ISOCountryCode = Encoding.ASCII.GetString(data, 32+NameLenght, 3)
             };
         }
         private NewCargo ParseNewCargo(byte[] data)
@@ -69,8 +69,8 @@ namespace airplanes
             {
                 Id = BitConverter.ToUInt64(data, 7),
                 Weight = BitConverter.ToSingle(data, 15),
-                Code = BitConverter.ToString(data, 19),
-                Description = BitConverter.ToString(data, 27, DescriptionLenght)
+                Code = Encoding.ASCII.GetString(data, 19, 6),
+                Description = Encoding.ASCII.GetString(data, 27, DescriptionLenght)
             };
         }
 
@@ -80,9 +80,9 @@ namespace airplanes
             return new NewCargoPlane 
             {
                 Id = BitConverter.ToUInt64(data, 7),
-                Serial = BitConverter.ToString(data, 15, 10),
-                ISOCountryCode = BitConverter.ToString(data, 25, 3),
-                Model = BitConverter.ToString(data, 30, ModelLenght),
+                Serial = Encoding.ASCII.GetString(data, 15, 10),
+                ISOCountryCode = Encoding.ASCII.GetString(data, 25, 3),
+                Model = Encoding.ASCII.GetString(data, 30, ModelLenght),
                 MaxLoad = BitConverter.ToSingle(data, 30+ModelLenght)
             };
         }
@@ -90,15 +90,26 @@ namespace airplanes
         {
             UInt16 NameLenght = BitConverter.ToUInt16(data, 15);
             UInt16 EmailLenght = BitConverter.ToUInt16(data, 31+NameLenght);
+
+            
+            UInt64  Id = BitConverter.ToUInt64(data, 7);
+            string Name = Encoding.ASCII.GetString(data, 17, NameLenght);
+            UInt16 Age = BitConverter.ToUInt16(data, 17 + NameLenght);
+            string PhoneNumber = Encoding.ASCII.GetString(data, 19 + NameLenght, 12);
+            string EmailAddress = Encoding.ASCII.GetString(data, 33 + NameLenght, EmailLenght);
+            UInt16 Practice = BitConverter.ToUInt16(data, 33 + NameLenght + EmailLenght);
+            char Role = (char)data[ 35 + NameLenght + EmailLenght];
+            
+
             return new NewCrew
             {
                 Id = BitConverter.ToUInt64(data, 7),
-                Name = BitConverter.ToString(data, 17, NameLenght),
+                Name = Encoding.ASCII.GetString(data, 17, NameLenght),
                 Age = BitConverter.ToUInt16(data, 17 + NameLenght),
-                PhoneNumber = BitConverter.ToString(data, 19 + NameLenght, 12),
-                EmailAddress = BitConverter.ToString(data, 33 + NameLenght, EmailLenght),
+                PhoneNumber = Encoding.ASCII.GetString(data, 19 + NameLenght, 12),
+                EmailAddress = Encoding.ASCII.GetString(data, 33 + NameLenght, EmailLenght),
                 Practice = BitConverter.ToUInt16(data, 33 + NameLenght + EmailLenght),
-                Role = BitConverter.ToChar(data, 35 + NameLenght + EmailLenght)
+                Role = (char)data[35 + NameLenght + EmailLenght]
             };
         }
         
@@ -140,11 +151,11 @@ namespace airplanes
             return new NewPassenger
             {
                 Id = BitConverter.ToUInt64(data, 7),
-                Name = BitConverter.ToString(data, 17, NameLenght),
+                Name = Encoding.ASCII.GetString(data, 17, NameLenght),
                 Age = BitConverter.ToUInt16(data, 17 + NameLenght),
-                PhoneNumber = BitConverter.ToString(data, 19 + NameLenght, 12),
-                EmailAddress = BitConverter.ToString(data, 33 + NameLenght, EmailLenght),
-                Class = BitConverter.ToChar(data, 33 + NameLenght + EmailLenght),
+                PhoneNumber = Encoding.ASCII.GetString(data, 19 + NameLenght, 12),
+                EmailAddress = Encoding.ASCII.GetString(data, 33 + NameLenght, EmailLenght),
+                Class = (char)data[33 + NameLenght + EmailLenght],
                 Miles = BitConverter.ToUInt64(data, 34 + NameLenght + EmailLenght)
             };
         }
@@ -155,9 +166,9 @@ namespace airplanes
             return new NewPassengerPlane
             {
                 Id = BitConverter.ToUInt64(data, 7),
-                Serial = BitConverter.ToString(data, 15, 10),
-                ISOCountryCode = BitConverter.ToString(data, 25, 3),
-                Model = BitConverter.ToString(data, 30, ModelLenght),
+                Serial = Encoding.ASCII.GetString(data, 15, 10),
+                ISOCountryCode = Encoding.ASCII.GetString(data, 25, 3),
+                Model = Encoding.ASCII.GetString(data, 30, ModelLenght),
                 FirstClassSize = BitConverter.ToUInt16(data, 30 + ModelLenght),
                 BuisnessClassSize = BitConverter.ToUInt16(data, 32 +  ModelLenght),
                 EconomyClassSize = BitConverter.ToUInt16(data, 34 +ModelLenght)
