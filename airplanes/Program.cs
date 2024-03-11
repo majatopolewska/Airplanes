@@ -43,13 +43,12 @@ namespace airplanes
             T result = (T)Convert.ChangeType(temp, typeof(T), System.Globalization.CultureInfo.InvariantCulture);
             return result;
         }
-
-        static void SaveToJson(object[] data, string filePath)
+        public static void SaveToJson(object[] data, string filePath)
         {
             var json = JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText(filePath, json);
         }
-        
+
     }
 
 }
