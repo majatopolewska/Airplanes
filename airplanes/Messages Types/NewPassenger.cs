@@ -15,11 +15,11 @@ namespace airplanes
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;
         public UInt16 NameLenght;
-        public char[] Name;
+        public string Name;
         public UInt16 Age;
-        public char[] PhoneNumber;
+        public string PhoneNumber;
         public UInt16 EmailLenght;
-        public char[] EmailAdress;
+        public string EmailAddress;
         public char Class;
         public UInt64 Miles;
 
@@ -29,16 +29,16 @@ namespace airplanes
         public NewPassenger(ulong id, string name, ushort age, string phoneNumber, string emailAddress, char passengerClass, ulong miles)
         {
             Id = id;
-            Name = name.ToCharArray();
+            Name = name;
             NameLenght = (ushort)Name.Length;
             Age = age;
-            PhoneNumber = phoneNumber.ToCharArray();
-            EmailAdress = emailAddress.ToCharArray();
-            EmailLenght = (ushort)EmailAdress.Length;
+            PhoneNumber = phoneNumber;
+            EmailAddress = emailAddress;
+            EmailLenght = (ushort)EmailAddress.Length;
             Class = passengerClass;
             Miles = miles;
 
-            FollowingMessageLenght = (uint)(Name.Length + PhoneNumber.Length + EmailAdress.Length + 15);
+            FollowingMessageLenght = (uint)(Name.Length + PhoneNumber.Length + EmailAddress.Length + 15);
         }
     }
 }

@@ -15,12 +15,12 @@ namespace airplanes
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;
         public UInt16 NameLenght;
-        public char[] Name;
-        public char[] Code;
+        public string Name;
+        public string Code;
         public Single Longitude;
         public Single Latitude;
         public Single AMSL;
-        public char[] ISOCountryCode;
+        public string ISOCountryCode;
 
         public NewAirport() : this(0, "", "", 0, 0, 0, "")
         { }
@@ -28,12 +28,12 @@ namespace airplanes
         public NewAirport(ulong id, string name, string code, float longitude, float latitude, float amsl, string countryCode)
         {
             Id = id;
-            Name = name.ToCharArray();
-            Code = code.ToCharArray();
+            Name = name;
+            Code = code;
             Longitude = longitude;
             Latitude = latitude;
             AMSL = amsl;
-            ISOCountryCode = countryCode.ToCharArray();
+            ISOCountryCode = countryCode;
 
             NameLenght = (ushort)Name.Length;
             FollowingMessageLenght = (uint)(NameLenght + Code.Length + ISOCountryCode.Length + 22); 

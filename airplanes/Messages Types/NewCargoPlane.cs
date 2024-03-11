@@ -13,10 +13,10 @@ namespace airplanes
 
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;
-        public char[] Serial;
-        public char[] ISOCountryCode;
+        public string Serial;
+        public string ISOCountryCode;
         public UInt16 ModelLenght;
-        public char[] Model;
+        public string Model;
         public Single MaxLoad;
 
         public NewCargoPlane() : this(0, "", "", "", 0)
@@ -24,9 +24,9 @@ namespace airplanes
         public NewCargoPlane(ulong id, string serial, string countryCode, string model, float maxLoad)
         {
             Id = id;
-            Serial = serial.ToCharArray();
-            ISOCountryCode = countryCode.ToCharArray();
-            Model = model.ToCharArray();
+            Serial = serial;
+            ISOCountryCode = countryCode;
+            Model = model;
             MaxLoad = maxLoad;
 
             ModelLenght = (ushort)Model.Length;

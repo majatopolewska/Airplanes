@@ -14,9 +14,9 @@ namespace airplanes
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;
         public Single Weight;
-        public char[] Code;
+        public string Code;
         public UInt16 DescriptionLenght;
-        public char[] Description;
+        public string Description;
 
         public NewCargo() : this(0, 0, "", "")
         { }
@@ -24,8 +24,8 @@ namespace airplanes
         {
             Id = id;
             Weight = weight;
-            Code = code.ToCharArray();
-            Description = description.ToCharArray();
+            Code = code;
+            Description = description;
 
             DescriptionLenght = (ushort)Description.Length;
             FollowingMessageLenght = (uint)(DescriptionLenght + Code.Length + 18);

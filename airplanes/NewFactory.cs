@@ -4,10 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Net.Mail;
+using System.Numerics;
+using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static airplanes.Program;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace airplanes
 {
@@ -24,43 +28,63 @@ namespace airplanes
             switch (messageType)
             {
                 case "NIA": // NewAirport
-                    return ParseNewAirport();
-                /*
+                    return ParseNewAirport(data);
                 case "NCA": // NewCargo
-                    return ParseNewCargo();
+                    return ParseNewCargo(data);
                 case "NCP": // NewCargoPlane
-                    return ParseNewCargoPlane();
+                    return ParseNewCargoPlane(data);
                 case "NCR": // NewCrew
-                    return ParseNewCrew();
+                    return ParseNewCrew(data);
                 case "NPA": // NewPassenger
-                    return ParseNewPassenger();
+                    return ParseNewPassenger(data);
                 case "NPP": // NewPassengerPlane
-                    return ParseNewPassengerPlane();
+                    return ParseNewPassengerPlane(data);
                 case "NFL": // NewFlight
-                    return ParseNewFlight();
-                */
+                    return ParseNewFlight(data);
+                
                 default:
                     throw new ArgumentException("Invalid type indicator");
 
             }
         }
 
-        private NewAirport ParseNewAirport()
+        private NewAirport ParseNewAirport(byte[] data)
         {
-            return new NewAirport(
-                   
-            );
+            UInt16 NameLenght = BitConverter.ToUInt16(data, 15);
+            return new NewAirport
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                Name = BitConverter.ToString(data, 17, NameLenght),
+                Code = BitConverter.ToString(data, 17+NameLenght, 3),
+                Longitude = BitConverter.ToSingle(data, 20+NameLenght),
+                Latitude = BitConverter.ToSingle(data, 24 + NameLenght),
+                AMSL = BitConverter.ToSingle(data, 28 + NameLenght),
+                ISOCountryCode = BitConverter.ToString(data, 32+NameLenght, 3)
+            };
         }
-        private NewCargo ParseNewCargo()
+        private NewCargo ParseNewCargo(byte[] data)
         {
-            return new NewCargo();
+            UInt16 DescriptionLenght = BitConverter.ToUInt16(data, 25);
+            return new NewCargo 
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                Weight = BitConverter.ToSingle(data, 15),
+                Code = BitConverter.ToString(data, 19),
+                Description = BitConverter.ToString(data, 27, DescriptionLenght)
+            };
         }
 
-        private NewCargoPlane ParseNewCargoPlane()
+        private NewCargoPlane ParseNewCargoPlane(byte[] data)
         {
-            return new NewCargoPlane(
-
-            );
+            UInt16 ModelLenght = BitConverter.ToUInt16(data, 28);
+            return new NewCargoPlane 
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                Serial = BitConverter.ToString(data, 15, 10),
+                ISOCountryCode = BitConverter.ToString(data, 25, 3),
+                Model = BitConverter.ToString(data, 30, ModelLenght),
+                MaxLoad = BitConverter.ToSingle(data, 30+ModelLenght)
+            };
         }
         private NewCrew ParseNewCrew(byte[] data)
         {
@@ -76,7 +100,69 @@ namespace airplanes
                 Practice = BitConverter.ToUInt16(data, 33 + NameLenght + EmailLenght),
                 Role = BitConverter.ToChar(data, 35 + NameLenght + EmailLenght)
             };
-
         }
+        
+        private NewFlight ParseNewFlight(byte[] data)
+        {
+            UInt16 tempCrewCount = BitConverter.ToUInt16(data, 55);
+            UInt64[] crew = new UInt64[tempCrewCount];
+            for (int i = 0; i < tempCrewCount; i++)
+            {
+                crew[i] = BitConverter.ToUInt64(data, 57 + i * 8);
+            }
+
+            UInt16 tempPassCargCount = BitConverter.ToUInt16(data, 57 + tempCrewCount * 8);
+            UInt64[] passCarg = new UInt64[tempPassCargCount];
+            for (int i = 0; i < tempPassCargCount; i++)
+            {
+                passCarg[i] = BitConverter.ToUInt64(data, 59 + tempCrewCount * 8 + i * 8);
+            }
+
+            return new NewFlight
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                OriginId = BitConverter.ToUInt64(data, 15),
+                TargetId = BitConverter.ToUInt64(data, 23),
+                TakeOffTime = BitConverter.ToInt64(data, 31),
+                LandingTime = BitConverter.ToInt64(data, 39),
+                PlaneId = BitConverter.ToUInt64(data, 47),
+                CrewCount = tempCrewCount,
+                Crew = crew,
+                PassCargCount = tempPassCargCount,
+                PassCarg = passCarg
+            };
+        }
+
+        private NewPassenger ParseNewPassenger(byte[] data)
+        {
+            UInt16 NameLenght = BitConverter.ToUInt16(data, 15);
+            UInt16 EmailLenght = BitConverter.ToUInt16(data, 31 + NameLenght);
+            return new NewPassenger
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                Name = BitConverter.ToString(data, 17, NameLenght),
+                Age = BitConverter.ToUInt16(data, 17 + NameLenght),
+                PhoneNumber = BitConverter.ToString(data, 19 + NameLenght, 12),
+                EmailAddress = BitConverter.ToString(data, 33 + NameLenght, EmailLenght),
+                Class = BitConverter.ToChar(data, 33 + NameLenght + EmailLenght),
+                Miles = BitConverter.ToUInt64(data, 34 + NameLenght + EmailLenght)
+            };
+        }
+
+        private NewPassengerPlane ParseNewPassengerPlane(byte[] data)
+        {
+            UInt16 ModelLenght = BitConverter.ToUInt16(data, 28);
+            return new NewPassengerPlane
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                Serial = BitConverter.ToString(data, 15, 10),
+                ISOCountryCode = BitConverter.ToString(data, 25, 3),
+                Model = BitConverter.ToString(data, 30, ModelLenght),
+                FirstClassSize = BitConverter.ToUInt16(data, 30 + ModelLenght),
+                BuisnessClassSize = BitConverter.ToUInt16(data, 32 +  ModelLenght),
+                EconomyClassSize = BitConverter.ToUInt16(data, 34 +ModelLenght)
+            };
+        }
+
     }
 }
