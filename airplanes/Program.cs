@@ -17,20 +17,6 @@ namespace airplanes
     {
         static void Main(string[] args)
         {
-            /*
-            string inputFile = "data.ftr";
-            string outputFile = "data.json";
-
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string inputFilePath = Path.Combine(currentDirectory, inputFile);
-            string outputFilePath = Path.Combine(currentDirectory, outputFile);
-
-            var data = ReadFile.ReadDataFromFile(inputFilePath);
-
-            SaveToJson(data, outputFilePath);
-
-            Console.WriteLine($"Data saved to {outputFile}");
-            */
             LoadDataSource.LoadDatafromSource();
         }
 
