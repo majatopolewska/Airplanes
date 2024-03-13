@@ -19,7 +19,6 @@ namespace airplanes
         {
             LoadDataSource.LoadDatafromSource();
         }
-
         public static T FormatData<T>(string data)
         {
             string temp = data.ToString(System.Globalization.CultureInfo.InvariantCulture);
