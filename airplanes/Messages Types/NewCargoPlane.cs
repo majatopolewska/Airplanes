@@ -9,7 +9,7 @@ namespace airplanes
 {
     class NewCargoPlane : IObject
     {
-        public string type { get; set; } = "NCP";
+        public string messageType { get; set; } = "NCP";
 
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;

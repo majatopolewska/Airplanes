@@ -10,7 +10,7 @@ namespace airplanes
 {
     class NewAirport : IObject
     {
-        public string type { get; set; } = "NAI";
+        public string messageType { get; set; } = "NAI";
 
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;

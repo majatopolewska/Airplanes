@@ -9,7 +9,7 @@ namespace airplanes
 {
     class NewPassengerPlane : IObject
     {
-        public string type { get; set; } = "NPP";
+        public string messageType { get; set; } = "NPP";
 
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;

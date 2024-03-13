@@ -10,7 +10,7 @@ namespace airplanes
 {
     class NewPassenger : IObject
     {
-        public string type { get; set; } = "NPA";
+        public string messageType { get; set; } = "NPA";
 
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;

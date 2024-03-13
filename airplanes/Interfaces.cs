@@ -8,7 +8,7 @@ namespace airplanes
 {
     public interface IObject
     {
-        string type { get; set; }
+        string messageType { get; set; }
     }
     public interface IDataFactory
     {

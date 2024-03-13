@@ -10,7 +10,7 @@ namespace airplanes
 {
     class NewCrew : IObject
     {
-        public string type { get; set; } = "NCR";
+        public string messageType { get; set; } = "NCR";
 
         public UInt32 FollowingMessageLenght;
         public UInt64 Id;
