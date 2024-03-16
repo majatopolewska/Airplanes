@@ -7,9 +7,9 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class PassengerPlane : IObject
+    class PassengerPlane : IAviationObject
     {
-        public string type { get; set; } = "PP";
+        public string messageType { get; set; } = "PP";
 
         public ulong Id;
         public string Serial;

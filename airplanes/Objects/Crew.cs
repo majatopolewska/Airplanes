@@ -2,9 +2,9 @@
 
 namespace airplanes
 {
-    class Crew : IObject
+    class Crew : IAviationObject
     {
-        public string type { get; set; } = "C";
+        public string messageType { get; set; } = "C";
 
         public ulong Id;
         public string Name;

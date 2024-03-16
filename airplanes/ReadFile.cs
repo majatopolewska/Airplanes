@@ -11,7 +11,7 @@ namespace airplanes
     {
         public static object[] ReadDataFromFile(string filePath)
         {
-            var data = new List<IObject>();
+            var data = new List<IAviationObject>();
 
             foreach (var line in File.ReadLines(filePath))
             {

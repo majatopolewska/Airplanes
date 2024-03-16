@@ -9,7 +9,7 @@ namespace airplanes
 {
     public class FlightFactory : IDataFactory
     {
-        public IObject Create(string[] values)
+        public IAviationObject Create(string[] values)
         {
             var crewIdsString = values[10].Trim('[', ']');
             var crewIdsArray = crewIdsString.Split(';').Select(ulong.Parse).ToArray();
@@ -30,6 +30,35 @@ namespace airplanes
                 PlaneId = ulong.Parse(values[9]),
                 CrewId = crewIdsArray,
                 LoadId = loadIdsArray
+            };
+        }
+
+        public IAviationObject Parse(byte[] data)
+        {
+            UInt16 tempCrewCount = BitConverter.ToUInt16(data, 55);
+            UInt64[] crew = new UInt64[tempCrewCount];
+            for (int i = 0; i < tempCrewCount; i++)
+            {
+                crew[i] = BitConverter.ToUInt64(data, 57 + i * 8);
+            }
+
+            UInt16 tempPassCargCount = BitConverter.ToUInt16(data, 57 + tempCrewCount * 8);
+            UInt64[] passCarg = new UInt64[tempPassCargCount];
+            for (int i = 0; i < tempPassCargCount; i++)
+            {
+                passCarg[i] = BitConverter.ToUInt64(data, 59 + tempCrewCount * 8 + i * 8);
+            }
+
+            return new Flight
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                OriginId = BitConverter.ToUInt64(data, 15),
+                TargetId = BitConverter.ToUInt64(data, 23),
+                TakeoffTime = BitConverter.ToString(data, 31, 8),
+                LandingTime = BitConverter.ToString(data, 39, 8),
+                PlaneId = BitConverter.ToUInt64(data, 47),
+                CrewId = crew,
+                LoadId = passCarg
             };
         }
     }

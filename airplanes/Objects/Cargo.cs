@@ -2,9 +2,9 @@
 
 namespace airplanes
 {
-    class Cargo : IObject
+    class Cargo : IAviationObject
     {
-        public string type { get; set; } = "CA";
+        public string messageType { get; set; } = "CA";
 
         public ulong Id;
         public Single Weight;

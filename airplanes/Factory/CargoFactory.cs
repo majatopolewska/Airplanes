@@ -9,7 +9,7 @@ namespace airplanes
 {
     public class CargoFactory : IDataFactory
     {
-        public IObject Create(string[] values)
+        public IAviationObject Create(string[] values)
         {
             return new Cargo
             {
@@ -17,6 +17,18 @@ namespace airplanes
                 Weight = FormatData<Single>(values[2]),
                 Code = values[3],
                 Description = values[4]
+            };
+        }
+
+        public IAviationObject Parse(byte[] data)
+        {
+            UInt16 DescriptionLenght = BitConverter.ToUInt16(data, 25);
+            return new Cargo
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                Weight = BitConverter.ToSingle(data, 15),
+                Code = Encoding.ASCII.GetString(data, 19, 6),
+                Description = Encoding.ASCII.GetString(data, 27, DescriptionLenght)
             };
         }
     }

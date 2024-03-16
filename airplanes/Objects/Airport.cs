@@ -9,9 +9,9 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class Airport : IObject
+    class Airport : IAviationObject
     {
-        public string type { get; set; } = "AI";
+        public string messageType { get; set; } = "AI";
 
         public ulong Id;
         public string Name;

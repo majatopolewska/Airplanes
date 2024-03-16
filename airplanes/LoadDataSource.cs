@@ -12,19 +12,19 @@ namespace airplanes
 {
     public class LoadDataSource
     {
-        private static List<IObject> data;
+        private static List<IAviationObject> data;
         private static readonly object dataLock = new object(); 
 
         public static void LoadDatafromSource()
         {
-            data = new List<IObject>();
+            data = new List<IAviationObject>();
 
             string inputFile = "data.ftr";
 
             string currentDirectory = Directory.GetCurrentDirectory();
             string inputFilePath = Path.Combine(currentDirectory, inputFile);
 
-            NetworkSourceSimulator.NetworkSourceSimulator dataSource = new NetworkSourceSimulator.NetworkSourceSimulator(inputFilePath, 10, 11);
+            NetworkSourceSimulator.NetworkSourceSimulator dataSource = new NetworkSourceSimulator.NetworkSourceSimulator(inputFilePath, 100, 100);
 
             dataSource.OnNewDataReady += DataSource_OnNewDataReady;
 
@@ -63,8 +63,8 @@ namespace airplanes
             Message message = ((NetworkSourceSimulator.NetworkSourceSimulator)sender).GetMessageAt(args.MessageIndex);
             var str = System.Text.Encoding.Default.GetString(message.MessageBytes);
 
-            MessageFactory messageFactory = new MessageFactory();
-            IObject resultObject = messageFactory.Create(message.MessageBytes);
+            MessageParser messageP = new MessageParser();
+            IAviationObject resultObject = messageP.GetDataFromMessage(message.MessageBytes);
 
             lock (dataLock)
             {

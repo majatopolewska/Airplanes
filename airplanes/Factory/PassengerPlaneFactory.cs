@@ -9,7 +9,7 @@ namespace airplanes
 {
     public class PassengerPlaneFactory : IDataFactory
     {
-        public IObject Create(string[] values)
+        public IAviationObject Create(string[] values)
         {
             return new PassengerPlane
             {
@@ -20,6 +20,21 @@ namespace airplanes
                 FirstClassSize = ushort.Parse(values[5]),
                 BusinessClassSize = ushort.Parse(values[6]),
                 EconomyClassSize = ushort.Parse(values[7])
+            };
+        }
+
+        public IAviationObject Parse(byte[] data)
+        {
+            UInt16 ModelLenght = BitConverter.ToUInt16(data, 28);
+            return new PassengerPlane
+            {
+                Id = BitConverter.ToUInt64(data, 7),
+                Serial = Encoding.ASCII.GetString(data, 15, 10),
+                Country = Encoding.ASCII.GetString(data, 25, 3),
+                Model = Encoding.ASCII.GetString(data, 30, ModelLenght),
+                FirstClassSize = BitConverter.ToUInt16(data, 30 + ModelLenght),
+                BusinessClassSize = BitConverter.ToUInt16(data, 32 + ModelLenght),
+                EconomyClassSize = BitConverter.ToUInt16(data, 34 + ModelLenght)
             };
         }
     }

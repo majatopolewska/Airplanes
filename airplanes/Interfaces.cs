@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace airplanes
 {
-    public interface IObject
+    public interface IAviationObject
     {
         string messageType { get; set; }
     }
     public interface IDataFactory
     {
-        public IObject Create(string[] values);
-    }
+        public IAviationObject Create(string[] values);
 
-    public interface IMessageFactory
-    {
-        public IObject Create(byte[] values);
+        public IAviationObject Parse(byte[] values);
     }
 }

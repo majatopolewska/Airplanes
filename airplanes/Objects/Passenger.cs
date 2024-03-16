@@ -2,9 +2,9 @@
 
 namespace airplanes
 {
-    class Passenger : IObject
+    class Passenger : IAviationObject
     {
-        public string type { get; set; } = "P";
+        public string messageType { get; set; } = "P";
 
         public ulong Id;
         public string Name;
