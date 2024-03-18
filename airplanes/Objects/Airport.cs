@@ -58,10 +58,10 @@ namespace airplanes
             Country = country;
         }
 
-        public (double x, double y) CalculateDistance(Airport origin, Airport target)
+        public static (double x, double y) CalculateDistance(Airport origin, Airport target)
         {
-            (double origin_x, double origin_y) = SphericalMercator.FromLonLat(origin.Latitude, origin.Longitude);
-            (double target_x, double target_y) = SphericalMercator.FromLonLat(target.Latitude, target.Longitude);
+            (double origin_x, double origin_y) = SphericalMercator.FromLonLat(origin.Longitude, origin.Latitude);
+            (double target_x, double target_y) = SphericalMercator.FromLonLat(target.Longitude, target.Latitude);
 
             (double distance_x, double distance_y) = (origin_x - target_x, origin_y - target_y);
 
