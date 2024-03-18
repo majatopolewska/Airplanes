@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Mapsui;
 using Mapsui.Projections;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,25 @@ namespace airplanes
 {
     class Airport : IAviationObject
     {
+
+        private const double Radius = 6378137;
+        private const double D2R = Math.PI / 180;
+        private const double HalfPi = Math.PI / 2;
+
+        public static (double x, double y) AyFromLonLat(double lon, double lat)
+        {
+            var lonRadians = D2R * lon;
+            var latRadians = D2R * lat;
+
+            var x = Radius * lonRadians;
+
+            var temp1 = Math.PI * 0.25 + latRadians * 0.5;
+            var temp2 = Math.Tan(temp1);
+            var y = Radius * Math.Log(temp2);
+
+            return new(x, y);
+        }
+
         public string messageType { get; set; } = "AI";
 
         public ulong Id;
@@ -48,12 +68,12 @@ namespace airplanes
             return (distance_x, distance_y);
         }
 
-        public double CalculateAngle(Airport origin, Airport target)
+        public static double CalculateAngle(Airport origin, Airport target)
         {
-            (double origin_x, double origin_y) = SphericalMercator.FromLonLat(origin.Latitude, origin.Longitude);
-            (double target_x, double target_y) = SphericalMercator.FromLonLat(target.Latitude, target.Longitude);
+            (double origin_x, double origin_y) = SphericalMercator.FromLonLat(origin.Longitude, origin.Latitude);
+            (double target_x, double target_y) = SphericalMercator.FromLonLat(target.Longitude, target.Latitude);
 
-            (double distance_x, double distance_y) = (origin_x - target_x, origin_y - target_y);
+            (double distance_x, double distance_y) = (target_x - origin_x, target_y - origin_y);
             double angle_radians = Math.Atan2(distance_y, distance_x);
 
             if (angle_radians < 0)

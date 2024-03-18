@@ -9,7 +9,7 @@ namespace airplanes
 {
     public class ReadFile
     {
-        public static object[] ReadDataFromFile(string filePath)
+        public static List<IAviationObject> ReadDataFromFile(string filePath)
         {
             var data = new List<IAviationObject>();
 
@@ -51,7 +51,7 @@ namespace airplanes
                 }
             }
 
-            return data.ToArray();
+            return data;
         }
     }
 }
