@@ -41,5 +41,18 @@ namespace airplanes
             CrewId = crewId;
             LoadId = loadId;
         }
+
+        public TimeSpan CalculateFlightTime()
+        {
+            DateTime takeoff = DateTime.Parse(TakeoffTime);
+            DateTime landing = DateTime.Parse(LandingTime);
+
+            TimeSpan flightTime = landing - takeoff;
+            
+            return flightTime;
+        }
+
+        
+
     }
 }

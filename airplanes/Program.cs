@@ -17,7 +17,8 @@ namespace airplanes
     {
         static void Main(string[] args)
         {
-            LoadDataSource.LoadDatafromSource();
+            wewillsee.LoadDatafromSource();
+            wewillsee.ShowMap();
         }
         public static T FormatData<T>(string data)
         {
@@ -32,5 +33,4 @@ namespace airplanes
         }
 
     }
-
 }
