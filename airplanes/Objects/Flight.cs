@@ -47,12 +47,17 @@ namespace airplanes
             DateTime takeoff = DateTime.Parse(TakeoffTime);
             DateTime landing = DateTime.Parse(LandingTime);
 
+            if (landing < takeoff)
+            {
+                landing = landing.AddDays(1);
+            }
+
             TimeSpan flightTime = landing - takeoff;
-            
+
             return flightTime;
         }
 
-        
+
 
     }
 }

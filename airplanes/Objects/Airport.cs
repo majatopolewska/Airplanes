@@ -60,8 +60,8 @@ namespace airplanes
 
         public static (double x, double y) CalculateDistance(Airport origin, Airport target)
         {
-            (double origin_x, double origin_y) = SphericalMercator.FromLonLat(origin.Longitude, origin.Latitude);
-            (double target_x, double target_y) = SphericalMercator.FromLonLat(target.Longitude, target.Latitude);
+            (double origin_x, double origin_y) = (origin.Longitude, origin.Latitude);
+            (double target_x, double target_y) = (target.Longitude, target.Latitude);
 
             (double distance_x, double distance_y) = (origin_x - target_x, origin_y - target_y);
 
@@ -70,8 +70,8 @@ namespace airplanes
 
         public static double CalculateAngle(Airport origin, Airport target)
         {
-            (double origin_x, double origin_y) = SphericalMercator.FromLonLat(origin.Longitude, origin.Latitude);
-            (double target_x, double target_y) = SphericalMercator.FromLonLat(target.Longitude, target.Latitude);
+            (double origin_x, double origin_y) = (origin.Longitude, origin.Latitude);
+            (double target_x, double target_y) = (target.Longitude, target.Latitude);
 
             (double distance_x, double distance_y) = (target_x - origin_x, target_y - origin_y);
             double angle_radians = Math.Atan2(distance_y, distance_x);
@@ -81,9 +81,7 @@ namespace airplanes
                 angle_radians += 2 * Math.PI;
             }
 
-            double angle_degrees = angle_radians * (180 / Math.PI);
-
-            return angle_degrees;
+            return angle_radians;
         }
 
     }
