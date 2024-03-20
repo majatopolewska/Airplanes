@@ -5,7 +5,7 @@ using System.IO;
 
 namespace airplanes
 {
-    /*
+ /*
     using Mapsui.Projections;
     using FlightTrackerGUI;
 
@@ -72,10 +72,13 @@ namespace airplanes
                     if (flightsData.Find(x => x.ID == flight.ID) != null) throw new Exception("Plane with this ID already exists in GUI");
                     var originAirport = airports.Find(x => x.ID == flight.OriginID) ?? throw new Exception($"No airport. FID: {flight.ID}");
                     var targetAirport = airports.Find(x => x.ID == flight.TargetID) ?? throw new Exception($"No airport. FID: {flight.ID}");
+                    
                     var originXY = SphericalMercator.FromLonLat(originAirport.Longitude, originAirport.Latitude);
                     var targetXY = SphericalMercator.FromLonLat(targetAirport.Longitude, targetAirport.Latitude);
+                    
                     double mapCoordRotation = Math.Atan2(targetXY.y - originXY.y, originXY.x - targetXY.x) - Math.PI / 2.0;
                     if (mapCoordRotation >= 0) mapCoordRotation += Math.PI;
+                    
                     var tTime = TimeSpan.ParseExact(flight.TakeoffTime, "h\\:mm", null);
                     var lTime = TimeSpan.ParseExact(flight.LandingTime, "h\\:mm", null);
                     var flightTime = lTime < tTime ? 24 * 3600 - tTime.TotalSeconds + lTime.TotalSeconds : (lTime - tTime).TotalSeconds;

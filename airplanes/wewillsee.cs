@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.IO;
 using System.Threading;
 using Avalonia;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Rendering;
 using Mapsui.Projections;
 using NetworkSourceSimulator;
@@ -45,51 +46,28 @@ namespace airplanes
             }
         }
 
-        /*
+
+        // dodajemy zawsze przesunięcie a co jak ma się przesuwać w lewo
         private static WorldPosition CalculateCurrentPosition(Flight flight, Airport origin, Airport target)
         {
-            TimeSpan flightDuration = flight.CalculateFlightTime();
+            double flightDuration = (flight.CalculateFlightTime()).TotalSeconds;
 
             (double x, double y) distanceOfFlight = Airport.CalculateDistance(origin, target);
             (double origin_x, double origin_y) = (origin.Longitude, origin.Latitude);
 
-            double moveForSecondinX = distanceOfFlight.x / flightDuration.TotalSeconds;
-            double moveForSecondinY = distanceOfFlight.y / flightDuration.TotalSeconds;
+            double moveForSecondinX = distanceOfFlight.x / flightDuration;
+            double moveForSecondinY = distanceOfFlight.y / flightDuration;
 
             DateTime takeoff = DateTime.Parse(flight.TakeoffTime);
 
-            TimeSpan timeFromStart = DateTime.Now - takeoff;
+            double timeFromStart = (DateTime.Now - takeoff).TotalSeconds;
 
             WorldPosition currPosition = new WorldPosition();
-            currPosition.Longitude = origin_x + moveForSecondinX * timeFromStart.TotalSeconds;
-            currPosition.Latitude = origin_y + moveForSecondinY * timeFromStart.TotalSeconds;
-
+            currPosition.Longitude = origin_x + moveForSecondinX * timeFromStart;
+            currPosition.Latitude = origin_y + moveForSecondinY * timeFromStart;
+            
             return currPosition;
         }
-        */
-
-        private static WorldPosition CalculateCurrentPosition(Flight flight, Airport origin, Airport target)
-        {
-            TimeSpan flightDuration = flight.CalculateFlightTime();
-
-            (double x, double y) distanceOfFlight = Airport.CalculateDistance(origin, target);
-            (double origin_x, double origin_y) = (origin.Longitude, origin.Latitude);
-
-            double moveForSecondinX = distanceOfFlight.x / flightDuration.TotalSeconds;
-            double moveForSecondinY = distanceOfFlight.y / flightDuration.TotalSeconds;
-
-            DateTime takeoff = DateTime.Parse(flight.TakeoffTime);
-
-            TimeSpan timeFromStart = DateTime.Now - takeoff;
-
-            WorldPosition currPosition = new WorldPosition();
-            currPosition.Longitude = origin_x + moveForSecondinX * timeFromStart.TotalSeconds;
-            currPosition.Latitude = origin_y + moveForSecondinY * timeFromStart.TotalSeconds;
-
-            return currPosition;
-        }
-
-
 
         // Method to convert aviation data to FlightsGUIData format
         private static FlightsGUIData ConvertToFlightsGUIData(List<IAviationObject> aviationData)

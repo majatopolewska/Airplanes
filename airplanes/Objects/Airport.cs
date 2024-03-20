@@ -62,7 +62,7 @@ namespace airplanes
             (double origin_x, double origin_y) = (origin.Longitude, origin.Latitude);
             (double target_x, double target_y) = (target.Longitude, target.Latitude);
 
-            (double distance_x, double distance_y) = (origin_x - target_x, origin_y - target_y);
+            (double distance_x, double distance_y) = ((origin_x - target_x), (origin_y - target_y));
 
             return (distance_x, distance_y);
         }
@@ -73,11 +73,11 @@ namespace airplanes
             (double target_x, double target_y) = (target.Longitude, target.Latitude);
 
             (double distance_x, double distance_y) = (target_x - origin_x, target_y - origin_y);
-            double angle_radians = Math.Atan2(distance_y, distance_x);
+            double angle_radians = Math.Atan2(distance_y, distance_x) - Math.PI / 2.0;
 
             if (angle_radians < 0)
             {
-                angle_radians += 2 * Math.PI;
+                angle_radians += Math.PI;
             }
 
             return angle_radians;
