@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 using NetworkSourceSimulator;
+using static airplanes.UpdateData;
 
 namespace airplanes
 {
@@ -17,7 +18,7 @@ namespace airplanes
     {
         static void Main(string[] args)
         {
-            wewillsee.ShowMap();
+            ShowMap();
         }
         public static T FormatData<T>(string data)
         {
@@ -31,5 +32,28 @@ namespace airplanes
             File.WriteAllText(filePath, json);
         }
 
+        public static void ShowMap()
+        {
+            LoadData();
+            GetAirports();
+
+            Thread guiThread = new Thread(FlightTrackerGUI.Runner.Run);
+            guiThread.Start();
+
+            Console.WriteLine("Compiling...");
+            Thread.Sleep(1000);
+
+            //Console.WriteLine("Update flights działa po chwili");
+            RunUpdateFlights();
+            //Console.WriteLine("Koniec ShowMap");
+        }
+        private static void RunUpdateFlights()
+        {
+            while (true)
+            {
+                UpdateFlights();
+                Thread.Sleep(1000);
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ using NetworkSourceSimulator;
 
 namespace airplanes
 {
-    class wewillsee
+    class UpdateData
     {
         private static List<IAviationObject> data;
         private static readonly object dataLock = new object();
@@ -26,14 +26,15 @@ namespace airplanes
 
             data = ReadFile.ReadDataFromFile(inputFile);
         }
-        private static void UpdateFlights()
+        public static void UpdateFlights()
         {
             FlightsGUIData flightsGUIData = ConvertToFlightsGUIData(data);
+            Console.WriteLine($"count: {flightsGUIData.GetFlightsCount()}");
 
             FlightTrackerGUI.Runner.UpdateGUI(flightsGUIData);
         }
 
-        private static void GetAirports()
+        public static void GetAirports()
         {
             foreach (var aviationObject in data)
             {
@@ -46,8 +47,6 @@ namespace airplanes
             }
         }
 
-
-        // dodajemy zawsze przesunięcie a co jak ma się przesuwać w lewo
         private static WorldPosition CalculateCurrentPosition(Flight flight, Airport origin, Airport target)
         {
             double flightDuration = (flight.CalculateFlightTime()).TotalSeconds;
@@ -55,21 +54,49 @@ namespace airplanes
             (double x, double y) distanceOfFlight = Airport.CalculateDistance(origin, target);
             (double origin_x, double origin_y) = (origin.Longitude, origin.Latitude);
 
-            double moveForSecondinX = distanceOfFlight.x / flightDuration;
-            double moveForSecondinY = distanceOfFlight.y / flightDuration;
+            // PROCENT DROGI OD START DO END
+
+            
 
             DateTime takeoff = DateTime.Parse(flight.TakeoffTime);
+            DateTime landing = DateTime.Parse(flight.LandingTime);
 
+            if (DateTime.Now < takeoff)
+            {
+                takeoff = takeoff.AddDays(-1);
+            }
             double timeFromStart = (DateTime.Now - takeoff).TotalSeconds;
 
+            double t = timeFromStart / flightDuration;
+            double travelledDistanceX = distanceOfFlight.x * t;
+            double travelledDistanceY = distanceOfFlight.y * t;
+
+            // tu tez moze byc zle przy samolotach landing<takeoff
+            // mozna sprawdzic wypisujac wszystkie i liczac reczenie z ftr
+
             WorldPosition currPosition = new WorldPosition();
-            currPosition.Longitude = origin_x + moveForSecondinX * timeFromStart;
-            currPosition.Latitude = origin_y + moveForSecondinY * timeFromStart;
             
+            currPosition.Longitude = origin_x + travelledDistanceX; //ni chuja tak nie mozna 
+            currPosition.Latitude = origin_y + travelledDistanceY; // tak samo
+            // odleglosc w (x,y) != odleglosc w (lon,lat)
+            // ponizej wypisywanie samolotow dla ktorych sa zle wspolrzedne
+            
+            if((currPosition.Longitude < -180 || currPosition.Longitude > 180) || (currPosition.Latitude > 90 || currPosition.Latitude < -90))
+            {
+                DateTime departureTime = DateTime.Parse(flight.TakeoffTime);
+                DateTime landingTime = DateTime.Parse(flight.LandingTime);
+                if (landingTime < departureTime)
+                {
+                    departureTime.AddDays(-1);
+                }
+                if (departureTime <= DateTime.Now && landingTime >= DateTime.Now)
+                    Console.WriteLine($"ID {flight.Id} Duration {flightDuration} Lon {currPosition.Longitude} Lat {currPosition.Latitude} {timeFromStart}");
+
+            }
+
             return currPosition;
         }
 
-        // Method to convert aviation data to FlightsGUIData format
         private static FlightsGUIData ConvertToFlightsGUIData(List<IAviationObject> aviationData)
         {
             List<FlightGUI> flightsData = new List<FlightGUI>();
@@ -82,12 +109,18 @@ namespace airplanes
                     Airport targetAirport = allAirports[flight.TargetId];
 
                     DateTime departureTime = DateTime.Parse(flight.TakeoffTime);
-                    if (departureTime <= DateTime.Now)
+                    DateTime landingTime = DateTime.Parse(flight.LandingTime);
+                    if(landingTime < departureTime)
+                    {
+                        departureTime.AddDays(-1);
+                    }
+                    if (departureTime <= DateTime.Now && landingTime >= DateTime.Now) // ten if nie da ci wysztkich samolotow
+                        // bo co jak departure 23:55 i teraz jest 00:01
                     {
                         double angleRadians = Airport.CalculateAngle(originAirport, targetAirport);
 
                         WorldPosition currentPosition = CalculateCurrentPosition(flight, originAirport, targetAirport);
-
+                        
                         FlightGUI flightGUI = new FlightGUI() { ID = flight.Id, WorldPosition = currentPosition, MapCoordRotation = angleRadians };
                         flightsData.Add(flightGUI);
                     }
@@ -95,35 +128,6 @@ namespace airplanes
             }
 
             return new FlightsGUIData(flightsData);
-        }
-
-        public static void ShowMap()
-        {
-            LoadData();
-            GetAirports();
-
-            // Runner.Run to jest nieskończona pętla.
-            // Musi być w osobnym wątku, bo jak nie, to nasz program nic więcej nie zrobi, a chciałby UpdateFlights
-            Thread guiThread = new Thread(FlightTrackerGUI.Runner.Run);
-            guiThread.Start();
-
-            Console.WriteLine("Czekam 1s");
-            Thread.Sleep(1000); // Spróbuj dać 200 i zobaczysz różnicę.
-
-            // Update flights działa dopiero po kilkuset milisekundach od pokazania okna
-            // Wcześniej ponad 1 sekundę wątek zajmuje się sobą, tworzeniem okna i narysowaniem mapy
-            // i wówczas UpdateFlights trafia "do kosza"/"w próżnię"
-            Console.WriteLine("Update flights działa po chwili");
-            RunUpdateFlights();
-            Console.WriteLine("Koniec ShowMap");
-        }
-        private static void RunUpdateFlights()
-        {
-            while (true)
-            {
-                UpdateFlights();
-                Thread.Sleep(1000);
-            }
         }
     }
 }
