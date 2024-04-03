@@ -43,7 +43,7 @@ namespace airplanes
             guiThread.Start();
 
             Console.WriteLine("Compiling...");
-            Thread.Sleep(1000);
+            Thread.Sleep(1000); // Time needed for GUI to start/initialize
 
             RunUpdateFlights();
         }
