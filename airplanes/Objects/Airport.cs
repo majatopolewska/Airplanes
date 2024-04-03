@@ -12,7 +12,7 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class Airport : IAviationObject
+    class Airport : IAviationObject, IReportable
     {
         public string messageType { get; set; } = "AI";
 

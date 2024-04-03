@@ -6,7 +6,7 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class CargoPlane : IAviationObject
+    class CargoPlane : IAviationObject, IReportable
     {
         public string messageType { get; set; } = "CP";
 

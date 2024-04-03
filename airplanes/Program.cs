@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 using System.Xml;
 using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-
 using NetworkSourceSimulator;
 using static airplanes.UpdateData;
+using static airplanes.Report;
 
 namespace airplanes
 {
@@ -18,8 +18,10 @@ namespace airplanes
     {
         static void Main(string[] args)
         {
+            DoingReport();
             ShowMap();
         }
+
         public static T FormatData<T>(string data)
         {
             string temp = data.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -43,9 +45,7 @@ namespace airplanes
             Console.WriteLine("Compiling...");
             Thread.Sleep(1000);
 
-            //Console.WriteLine("Update flights działa po chwili");
             RunUpdateFlights();
-            //Console.WriteLine("Koniec ShowMap");
         }
         private static void RunUpdateFlights()
         {

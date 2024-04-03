@@ -6,7 +6,7 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class PassengerPlane : IAviationObject
+    class PassengerPlane : IAviationObject, IReportable
     {
         public string messageType { get; set; } = "PP";
 

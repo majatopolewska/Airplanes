@@ -29,8 +29,7 @@ namespace airplanes
         public static void UpdateFlights()
         {
             FlightsGUIData flightsGUIData = ConvertToFlightsGUIData(data);
-            // Console.WriteLine($"count: {flightsGUIData.GetFlightsCount()}");
-
+            
             FlightTrackerGUI.Runner.UpdateGUI(flightsGUIData);
         }
 
@@ -71,18 +70,6 @@ namespace airplanes
             
             currPosition.Longitude = origin_x + travelledDistanceX;
             currPosition.Latitude = origin_y + travelledDistanceY;
-            
-            if((currPosition.Longitude < -180 || currPosition.Longitude > 180) || (currPosition.Latitude > 90 || currPosition.Latitude < -90))
-            {
-                DateTime departureTime = DateTime.Parse(flight.TakeoffTime);
-                DateTime landingTime = DateTime.Parse(flight.LandingTime);
-                if (landingTime < departureTime)
-                {
-                    departureTime.AddDays(-1);
-                }
-                if (departureTime <= DateTime.Now && landingTime >= DateTime.Now)
-                    Console.WriteLine($"ID {flight.Id} Duration {flightDuration} Lon {currPosition.Longitude} Lat {currPosition.Latitude} {timeFromStart}");
-            }
 
             return currPosition;
         }

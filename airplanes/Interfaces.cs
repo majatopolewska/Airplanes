@@ -16,4 +16,9 @@ namespace airplanes
 
         public IAviationObject Parse(byte[] values);
     }
+
+    public interface IReportable
+    {
+
+    }
 }
