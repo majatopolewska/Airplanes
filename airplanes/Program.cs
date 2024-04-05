@@ -11,6 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using NetworkSourceSimulator;
 using static airplanes.UpdateData;
 using static airplanes.Report;
+using static airplanes.LoadDataSource;
 
 namespace airplanes
 {
@@ -18,7 +19,8 @@ namespace airplanes
     {
         static void Main(string[] args)
         {
-            DoingReport();
+            LoadDatafromSource();
+            Reporting();
             ShowMap();
         }
 
@@ -43,7 +45,7 @@ namespace airplanes
             guiThread.Start();
 
             Console.WriteLine("Compiling...");
-            Thread.Sleep(1000); // Time needed for GUI to start/initialize
+            Thread.Sleep(1000);
 
             RunUpdateFlights();
         }
@@ -53,6 +55,23 @@ namespace airplanes
             {
                 UpdateFlights();
                 Thread.Sleep(1000);
+            }
+        }
+
+        public static void Reporting()
+        {
+            bool entered = false;
+            while (!entered)
+            {
+                string command = Console.ReadLine();
+                switch (command)
+                {
+                    case "report":
+                        DoingReport();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

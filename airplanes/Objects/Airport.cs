@@ -12,7 +12,7 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class Airport : IAviationObject, IReportable
+    public class Airport : IAviationObject, IReportable
     {
         public string messageType { get; set; } = "AI";
 
@@ -58,6 +58,11 @@ namespace airplanes
             if (angle >= 0) angle += Math.PI;
 
             return angle;
+        }
+
+        public string ReportNews(IMedia visitor)
+        {
+            return visitor.Visit(this);
         }
 
     }

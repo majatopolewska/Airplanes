@@ -6,7 +6,7 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class CargoPlane : IAviationObject, IReportable
+    public class CargoPlane : IAviationObject, IReportable
     {
         public string messageType { get; set; } = "CP";
 
@@ -27,6 +27,11 @@ namespace airplanes
             Country = country;
             Model = model;
             MaxLoad = maxLoad;
+        }
+
+        public string ReportNews(IMedia visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

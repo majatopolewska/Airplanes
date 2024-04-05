@@ -19,6 +19,16 @@ namespace airplanes
 
     public interface IReportable
     {
-
+        public string ReportNews(IMedia reported);
     }
+    public interface IMedia
+    {
+        public string Visit(Airport a);
+        public string Visit(CargoPlane cp);
+        public string Visit(PassengerPlane pp);
+    }
+
+
+
+
 }

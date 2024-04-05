@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Controls.Documents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,58 +9,32 @@ namespace airplanes
 {
     public class NewsGenerator
     {
-        List<object> newsProviders;
-        List <IReportable> reportedObjects;
-        List<Pair> check;
-        public NewsGenerator(List <object> providers, List <IReportable> reported)
+        private readonly IEnumerable<IMedia> newsProviders;
+        private readonly IEnumerable<IReportable> reportedObjects;
+
+        public NewsGenerator(IEnumerable<IMedia> providers, IEnumerable<IReportable> reported)
         {
             newsProviders = providers;
             reportedObjects = reported;
-            check = new List<Pair>();
         }
-        public string? GenerateNextNews()
+
+        public IEnumerable<string> GenerateNextNews()
         {
-            int sizeNewsP = newsProviders.Count;
-            int sizeReportedO = reportedObjects.Count;
-            string nextNews;
-
-            for (int i = 0; i < sizeNewsP; i++)
+            foreach (var newsProvider in newsProviders)
             {
-                for (int j = 0; j < sizeReportedO; j++)
+                foreach (var reportedObject in reportedObjects)
                 {
-                    Pair ind = new Pair(i, j);
-                    if (check.Contains(ind))
-                        continue;
-
-                    var newsP = newsProviders[i];
-                    var repO = reportedObjects[j];
-                    if (newsP is Television t)
-                        nextNews = t.providingNews(repO);
-                    else if (newsP is Radio r)
-                        nextNews = r.providingNews(repO);
-                    else if (newsP is Newspaper n)
-                        nextNews = n.providingNews(repO);
+                    if (reportedObject is Airport airport)
+                        yield return newsProvider.Visit(airport);
+                    else if (reportedObject is CargoPlane cargoPlane)
+                        yield return newsProvider.Visit(cargoPlane);
+                    else if (reportedObject is PassengerPlane passengerPlane)
+                        yield return newsProvider.Visit(passengerPlane);
                     else
-                        return null;
-
-                    check.Add(ind);
-
-                    return nextNews;
+                        yield return "Report censured";
                 }
             }
-            return null;
-        }
-    }
-
-    public class Pair
-    {
-        public int first { get; set; }
-        public int second { get; set; }
-
-        public Pair(int _first, int _second)
-        {
-            first = _first;
-            second = _second;
+            yield return null;
         }
     }
 }

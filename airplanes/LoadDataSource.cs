@@ -13,7 +13,7 @@ namespace airplanes
     public class LoadDataSource
     {
         private static List<IAviationObject> data;
-        private static readonly object dataLock = new object(); 
+        private static readonly object dataLock = new object();
 
         public static void LoadDatafromSource()
         {

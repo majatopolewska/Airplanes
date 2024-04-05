@@ -9,16 +9,16 @@ namespace airplanes
 {
     public class Report
     {
-        private static List<IReportable> reportedObjects;
+        private static List<IReportable> reportedObjects = [];
 
         public Report()
         {
             reportedObjects = new List<IReportable>();
         }
 
-        private static List<object> newsProvidersGenerator()
+        private static List<IMedia> newsProvidersGenerator()
         {
-            var newsProviders = new List<object>();
+            var newsProviders = new List<IMedia>();
             Radio radioQ = new Radio("Quatifier radio");
             Radio radioS = new Radio("Shmem radio");
             Television tvA = new Television("Abelian Television");
@@ -51,16 +51,16 @@ namespace airplanes
                 }
             }
         }
-
         public static void DoingReport()
         {
             objectsToReport();
-            List<object> newsProviders = newsProvidersGenerator();
+            List<IMedia> newsProviders = newsProvidersGenerator();
             NewsGenerator newsGenerator = new NewsGenerator(newsProviders, reportedObjects);
-            string? reportNews;
-            while( (reportNews = newsGenerator.GenerateNextNews()) != null)
+            IEnumerable<string> reportNews;
+            reportNews = newsGenerator.GenerateNextNews();
+            foreach (var news in reportNews)
             {
-                Console.WriteLine(reportNews);
+                Console.WriteLine(news);
             }
         }
     }
