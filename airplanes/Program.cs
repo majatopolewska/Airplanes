@@ -68,6 +68,7 @@ namespace airplanes
                 {
                     case "report":
                         DoingReport();
+                        entered = true;
                         break;
                     default:
                         break;
