@@ -6,11 +6,11 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class PassengerPlane : IAviationObject, IReportable
+    public class PassengerPlane : IAviationObject, IReportable
     {
         public string messageType { get; set; } = "PP";
 
-        public ulong Id;
+        public ulong Id { get; set; }
         public string Serial;
         public string Country;
         public string Model;
@@ -30,6 +30,11 @@ namespace airplanes
             FirstClassSize = firstClassSize;
             BusinessClassSize = businessClassSize;
             EconomyClassSize = economyClassSize;
+        }
+
+        public string ReportNews(IMedia visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

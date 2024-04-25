@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.IO;
-using System.Reflection.PortableExecutable;
-using System.Runtime.InteropServices;
-using System.Xml;
-using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using NetworkSourceSimulator;
+﻿using Newtonsoft.Json;
 using static airplanes.UpdateData;
-using static airplanes.Report;
+
 
 namespace airplanes
 {
@@ -18,7 +8,10 @@ namespace airplanes
     {
         static void Main(string[] args)
         {
-            DoingReport();
+            // exirt caly proogram
+            LoadDataSource lds = new();
+            lds.LoadDatafromSource();
+            //Reporting();
             ShowMap();
         }
 
@@ -43,7 +36,7 @@ namespace airplanes
             guiThread.Start();
 
             Console.WriteLine("Compiling...");
-            Thread.Sleep(1000); // Time needed for GUI to start/initialize
+            Thread.Sleep(1000);
 
             RunUpdateFlights();
         }
@@ -55,5 +48,6 @@ namespace airplanes
                 Thread.Sleep(1000);
             }
         }
+
     }
 }

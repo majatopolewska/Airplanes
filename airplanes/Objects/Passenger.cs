@@ -2,15 +2,15 @@
 
 namespace airplanes
 {
-    class Passenger : IAviationObject
+    class Passenger : IAviationObject, IContactInfo
     {
         public string messageType { get; set; } = "P";
 
-        public ulong Id;
+        public ulong Id { get; set; }
         public string Name;
         public ulong Age;
-        public string Phone;
-        public string Email;
+        public string Phone { get; set; }
+        public string Email { get; set; }
         public string Class;
         public ulong Miles;
 

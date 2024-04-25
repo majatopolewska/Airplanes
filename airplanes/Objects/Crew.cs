@@ -2,15 +2,15 @@
 
 namespace airplanes
 {
-    class Crew : IAviationObject
+    class Crew : IAviationObject, IContactInfo
     {
         public string messageType { get; set; } = "C";
 
-        public ulong Id;
+        public ulong Id { get; set; }
         public string Name;
         public ulong Age;
-        public string Phone;
-        public string Email;
+        public string Phone { get; set; }
+        public string Email { get; set; }
         public ushort Practice;
         public string Role;
 

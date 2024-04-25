@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace airplanes
 {
-    class Newspaper
+    class Newspaper : IMedia
     {
         public string Name;
 
@@ -14,17 +14,17 @@ namespace airplanes
         {
             Name = name;
         }
-
-        public string providingNews(IReportable repoertedObject)
+        public string Visit(Airport a)
         {
-            if (repoertedObject is Airport a)
-                return $"{Name} - A report from the {a.Name} airport, {a.Country}.";
-            else if (repoertedObject is CargoPlane cp)
-                return $"{Name} - An interview with crew of {cp.Serial}.";
-            else if (repoertedObject is PassengerPlane pp)
-                return $"{Name} - Breaking News! {pp.Model} aircraft loses EASA fails certification after inspection of {pp.Serial}.";
-            else
-                return $"Report censured";
+            return $"{Name} - A report from the {a.Name} airport, {a.Country}.";
+        }
+        public string Visit(CargoPlane cp)
+        {
+            return $"{Name} - An interview with crew of {cp.Serial}.";
+        }
+        public string Visit(PassengerPlane pp)
+        {
+            return $"{Name} - Breaking News! {pp.Model} aircraft loses EASA fails certification after inspection of {pp.Serial}.";
         }
     }
 }

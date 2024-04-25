@@ -12,16 +12,16 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    class Airport : IAviationObject, IReportable
+    public class Airport : IAviationObject, IReportable, IPositionInfo
     {
         public string messageType { get; set; } = "AI";
 
-        public ulong Id;
+        public ulong Id { get; set; }
         public string Name;
         public string Code;
-        public Single Longitude;
-        public Single Latitude;
-        public Single AMSL;
+        public Single Longitude { get; set; }
+        public Single Latitude { get; set; }
+        public Single AMSL { get; set; }
         public string Country;
 
         public Airport() : this(0, "", "", 0.0f, 0.0f, 0.0f, "")
@@ -58,6 +58,11 @@ namespace airplanes
             if (angle >= 0) angle += Math.PI;
 
             return angle;
+        }
+
+        public string ReportNews(IMedia visitor)
+        {
+            return visitor.Visit(this);
         }
 
     }

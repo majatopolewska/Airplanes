@@ -10,7 +10,7 @@ namespace airplanes
     {
         public string messageType { get; set; } = "FL";
 
-        public ulong Id;
+        public ulong Id { get; set; }
         public ulong OriginId;
         public ulong TargetId;
         public string TakeoffTime;

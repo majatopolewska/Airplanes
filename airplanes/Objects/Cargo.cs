@@ -6,7 +6,7 @@ namespace airplanes
     {
         public string messageType { get; set; } = "CA";
 
-        public ulong Id;
+        public ulong Id { get; set; }
         public Single Weight;
         public string Code;
         public string Description;

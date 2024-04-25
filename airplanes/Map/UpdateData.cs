@@ -29,7 +29,7 @@ namespace airplanes
         public static void UpdateFlights()
         {
             FlightsGUIData flightsGUIData = ConvertToFlightsGUIData(data);
-            
+
             FlightTrackerGUI.Runner.UpdateGUI(flightsGUIData);
         }
 
@@ -67,7 +67,7 @@ namespace airplanes
             double travelledDistanceY = distanceOfFlight.y * t;
 
             WorldPosition currPosition = new WorldPosition();
-            
+
             currPosition.Longitude = origin_x + travelledDistanceX;
             currPosition.Latitude = origin_y + travelledDistanceY;
 
@@ -77,7 +77,7 @@ namespace airplanes
         private static FlightsGUIData ConvertToFlightsGUIData(List<IAviationObject> aviationData)
         {
             List<FlightGUI> flightsData = new List<FlightGUI>();
-            
+
             foreach (var aviationObject in aviationData)
             {
                 if (aviationObject is Flight flight)
@@ -88,7 +88,7 @@ namespace airplanes
                     DateTime departureTime = DateTime.Parse(flight.TakeoffTime);
                     DateTime landingTime = DateTime.Parse(flight.LandingTime);
 
-                    if(landingTime < departureTime)
+                    if (landingTime < departureTime)
                     {
                         departureTime.AddDays(-1);
                     }
@@ -97,7 +97,7 @@ namespace airplanes
                         double angleRadians = Airport.CalculateAngle(originAirport, targetAirport);
 
                         WorldPosition currentPosition = CalculateCurrentPosition(flight, originAirport, targetAirport);
-                        
+
                         FlightGUI flightGUI = new FlightGUI() { ID = flight.Id, WorldPosition = currentPosition, MapCoordRotation = angleRadians };
                         flightsData.Add(flightGUI);
                     }

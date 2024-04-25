@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,8 +14,14 @@
 
   <ItemGroup>
     <Reference Include="NetworkSourceSimulator">
-      <HintPath>..\..\OOD\part 2\Includes\NetworkSourceSimulator.dll</HintPath>
+      <HintPath>assemblies\NetworkSourceSimulator.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\example.ftre">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace airplanes
 {
-    class Radio
+    class Radio : IMedia
     {
         public string Name;
 
@@ -14,17 +14,17 @@ namespace airplanes
         {
             Name = name;
         }
-
-        public string providingNews(IReportable repoertedObject)
+        public string Visit(Airport a)
         {
-            if (repoertedObject is Airport a)
-                return $"Reportinh for {Name}, Ladies and Gentlemen, we are at the {a.Name} airport.";
-            else if (repoertedObject is CargoPlane cp)
-                return $"Reporting {Name}, Ladies and Gentlemen, we are seeing the {cp.Serial} aircraft fly above us.";
-            else if (repoertedObject is PassengerPlane pp)
-                return $"Reporting {Name}, Ladies and Gentlemen, we are seeing the {pp.Serial} aircraft fly above us.";
-            else
-                return $"Report censured";
+            return $"Reporting for {Name}, Ladies and Gentlemen, we are at the {a.Name} airport.";
+        }
+        public string Visit(CargoPlane cp)
+        {
+            return $"Reporting {Name}, Ladies and Gentlemen, we are seeing the {cp.Serial} aircraft fly above us.";
+        }
+        public string Visit(PassengerPlane pp)
+        {
+            return $"Reporting {Name}, Ladies and Gentlemen, we are seeing the {pp.Serial} aircraft fly above us.";
         }
     }
 }
