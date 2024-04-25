@@ -1,6 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.IO;
+using System.Reflection.PortableExecutable;
+using System.Runtime.InteropServices;
+using System.Xml;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using NetworkSourceSimulator;
 using static airplanes.UpdateData;
-
+using static airplanes.Report;
+using static airplanes.LoadDataSource;
 
 namespace airplanes
 {
@@ -8,10 +19,8 @@ namespace airplanes
     {
         static void Main(string[] args)
         {
-            // exirt caly proogram
-            LoadDataSource lds = new();
-            lds.LoadDatafromSource();
-            //Reporting();
+            LoadDatafromSource();
+            Reporting();
             ShowMap();
         }
 
@@ -49,5 +58,22 @@ namespace airplanes
             }
         }
 
+        public static void Reporting()
+        {
+            bool entered = false;
+            while (!entered)
+            {
+                string command = Console.ReadLine();
+                switch (command)
+                {
+                    case "report":
+                        DoingReport();
+                        entered = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }

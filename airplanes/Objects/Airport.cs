@@ -12,16 +12,16 @@ using static airplanes.Program;
 
 namespace airplanes
 {
-    public class Airport : IAviationObject, IReportable, IPositionInfo
+    public class Airport : IAviationObject, IReportable
     {
         public string messageType { get; set; } = "AI";
 
-        public ulong Id { get; set; }
+        public ulong Id;
         public string Name;
         public string Code;
-        public Single Longitude { get; set; }
-        public Single Latitude { get; set; }
-        public Single AMSL { get; set; }
+        public Single Longitude;
+        public Single Latitude;
+        public Single AMSL;
         public string Country;
 
         public Airport() : this(0, "", "", 0.0f, 0.0f, 0.0f, "")
